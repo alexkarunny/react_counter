@@ -2,18 +2,34 @@ import React, {ChangeEvent, useState} from 'react';
 import './App.css';
 import {Button} from './components/Button';
 
+
 function App() {
-    let [value, setValue] = useState<number | string>(0)
 
-    let [minValue, setMinValue] = useState<number>(0)
+    const minValueStartValue = localStorage.getItem('minValue')
+        ? () => {
+            let value = localStorage.getItem('minValue')
+            if (value) return JSON.parse(value)
+        }
+        : 0;
+    const maxValueStartValue = localStorage.getItem('maxValue')
+        ? () => {
+            let value = localStorage.getItem('maxValue')
+            if (value) return JSON.parse(value)
+        }
+        : 6;
 
-    let [maxValue, setMaxValue] = useState<number>(5)
+    let [value, setValue] = useState<number | string>(minValueStartValue)
+
+    let [minValue, setMinValue] = useState<number>(minValueStartValue)
+
+    let [maxValue, setMaxValue] = useState<number>(maxValueStartValue)
 
     let [isButtonSetDisabled, setIsButtonSetDisabled] = useState<boolean>(true)
 
     let [isButtonIncDisabled, setIsButtonIncDisabled] = useState<boolean>(false)
 
     let [isButtonResetDisabled, setIsButtonResetDisabled] = useState<boolean>(true)
+
 
     const onClickIncreaseHandler = () => {
         if (typeof value === 'number') {
@@ -36,6 +52,8 @@ function App() {
     }
 
     const onClickSetValueHandler = () => {
+        localStorage.setItem('minValue', JSON.stringify(minValue))
+        localStorage.setItem('maxValue', JSON.stringify(maxValue))
         setValue(minValue)
         setIsButtonIncDisabled(false)
     }
