@@ -6,3 +6,7 @@
   color: red;
   font-size: 45px;
 }
+
+.incorrect_input {
+  background-color: #f00;
+}
