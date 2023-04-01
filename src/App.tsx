@@ -1,35 +1,32 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useEffect, useState} from 'react';
 import './App.css';
-import {Button} from './components/Button';
+import {Counter} from './components/Counter/Counter';
+import {Settings} from './components/Settings/Settings';
 
 
 function App() {
 
-    const minValueStartValue = localStorage.getItem('minValue')
-        ? () => {
-            let value = localStorage.getItem('minValue')
-            if (value) return JSON.parse(value)
+    useEffect(() => {
+        const startMinValue = localStorage.getItem('minValue')
+        const startMaxValue = localStorage.getItem('maxValue')
+        if (startMinValue && startMaxValue) {
+            setValue(JSON.parse(startMinValue))
+            setMinValue(JSON.parse(startMinValue))
+            setMaxValue(JSON.parse(startMaxValue))
         }
-        : 0;
-    const maxValueStartValue = localStorage.getItem('maxValue')
-        ? () => {
-            let value = localStorage.getItem('maxValue')
-            if (value) return JSON.parse(value)
-        }
-        : 6;
+    }, [])
 
-    let [value, setValue] = useState<number | string>(minValueStartValue)
+    let [value, setValue] = useState<number | string>(0)
 
-    let [minValue, setMinValue] = useState<number>(minValueStartValue)
+    let [minValue, setMinValue] = useState<number>(0)
 
-    let [maxValue, setMaxValue] = useState<number>(maxValueStartValue)
-
-    let [isButtonSetDisabled, setIsButtonSetDisabled] = useState<boolean>(true)
+    let [maxValue, setMaxValue] = useState<number>(10)
 
     let [isButtonIncDisabled, setIsButtonIncDisabled] = useState<boolean>(false)
 
     let [isButtonResetDisabled, setIsButtonResetDisabled] = useState<boolean>(true)
 
+    let [isButtonSetDisabled, setIsButtonSetDisabled] = useState<boolean>(true)
 
     const onClickIncreaseHandler = () => {
         if (typeof value === 'number') {
@@ -43,8 +40,9 @@ function App() {
         setIsButtonResetDisabled(true)
     }
 
-    const onChangeSetValueHandler = (e: ChangeEvent<HTMLInputElement>, setValueCallback: (value: number) => void) => {
-        setValueCallback(+e.currentTarget.value)
+    const onChangeSetValueHandler = (e: ChangeEvent<HTMLInputElement>, setValueCase: 'min' | 'max') => {
+        if (setValueCase === 'min') setMinValue(+e.currentTarget.value)
+        if (setValueCase === 'max') setMaxValue(+e.currentTarget.value)
         setValue('enter values and press \'set\'')
         setIsButtonIncDisabled(true)
         setIsButtonSetDisabled(false)
@@ -58,37 +56,12 @@ function App() {
         setIsButtonIncDisabled(false)
     }
 
-    const finalButtonSetIsDisabled = isButtonSetDisabled || minValue === maxValue || minValue < 0 || minValue > maxValue
-
-    const finalMaxValueClassName = minValue === maxValue || minValue > maxValue || maxValue < 0 ? 'incorrect_input' : ''
-
-    const finalMinValueClassName = minValue === maxValue || minValue < 0 || minValue > maxValue ? 'incorrect_input' : ''
-
-    const finalValue = minValue === maxValue || minValue < 0 || minValue > maxValue ? 'incorrect values' : value
-
     return (
         <div className="App">
-            <div className={value === maxValue ? 'red' : ''}>{finalValue}</div>
-            <Button title={'Inc'} isDisabled={isButtonIncDisabled} onClickCallback={onClickIncreaseHandler}></Button>
-            <Button title={'Reset'} isDisabled={isButtonResetDisabled}
-                    onClickCallback={onClickResetValueHandler}></Button>
-            <div>
-                <span>MinValue: </span>
-                <input type="number" onChange={(e) => onChangeSetValueHandler(e, setMinValue)} value={minValue}
-                       className={finalMinValueClassName}/>
-            </div>
-            <div>
-                <span>MaxValue: </span>
-                <input type="number" onChange={(e) => onChangeSetValueHandler(e, setMaxValue)} value={maxValue}
-                       className={finalMaxValueClassName}/>
-            </div>
-
-            <div>
-                <Button title={'Set'} isDisabled={finalButtonSetIsDisabled}
-                        onClickCallback={onClickSetValueHandler}></Button>
-            </div>
-
-
+            <Counter value={value} maxValue={maxValue} minValue={minValue}
+                     onClickIncreaseHandler={onClickIncreaseHandler} onClickResetValueHandler={onClickResetValueHandler}
+                     isResetDisabled={isButtonResetDisabled} isIncDisables={isButtonIncDisabled}/>
+            <Settings minValue={minValue} maxValue={maxValue} value={value} isSetDisabled={isButtonSetDisabled} onClickSetValueHandler={onClickSetValueHandler} onChangeSetValueHandler={onChangeSetValueHandler}/>
         </div>
     );
 }
