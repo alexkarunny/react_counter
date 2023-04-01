@@ -1,0 +1,26 @@
+.button {
+    width: 68px;
+    height: 18px;
+    outline: none;
+    border: 1px solid #0066CC;
+    background: #0066CC;
+    border-radius: 3px;
+    color: #fff;
+    font: normal 600 10px/15px 'Montserrat', sans-serif;
+}
+
+.button:hover {
+    background: #0080FF;
+}
+
+.button:active {
+    background: #0059B2;
+}
+
+.button:disabled {
+    opacity: 0.5;
+}
+
+.button:disabled:hover {
+    background: #0066CC;
+}

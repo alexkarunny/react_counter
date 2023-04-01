@@ -1,6 +1,6 @@
-import {Button} from '../Button';
+import {Button} from '../Button/Button';
 import React from 'react';
-import classes from './Counter.module.css'
+import c from './Counter.module.css'
 
 type CounterPropsType = {
     minValue: number
@@ -14,13 +14,14 @@ type CounterPropsType = {
 
 export const Counter = (props: CounterPropsType) => {
 
-
     const finalValue = props.minValue === props.maxValue || props.minValue < 0 || props.minValue > props.maxValue ? 'incorrect values' : props.value
     const finalButtonIncIsDisabled = props.isIncDisables || props.value === props.maxValue
+    const finalDisplayClassName = c.display + (props.value === props.maxValue || finalValue === 'incorrect values' ? ' ' + c.red : '')
+
 
     return (
-        <div>
-            <div className={props.value === props.maxValue ? classes.red : ''}>{finalValue}</div>
+        <div className={c.counter_wrapper}>
+            <div className={finalDisplayClassName}>{finalValue}</div>
             <Button title={'Inc'}
                     isDisabled={finalButtonIncIsDisabled}
                     onClickCallback={props.onClickIncreaseHandler}

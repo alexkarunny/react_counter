@@ -1,4 +1,17 @@
-.red {
+.counter_wrapper {
+    padding: 15px;
+    width: 250px;
+    height: 100px;
+    box-sizing: border-box;
+    background-color: #b1d9ea;
+    text-align: center;
+}
+
+.display {
+    color: #fff;
+    font: normal 900 18px 'Palatino Linotype';
+}
+
+.display.red {
     color: red;
-    font-size: 45px;
 }

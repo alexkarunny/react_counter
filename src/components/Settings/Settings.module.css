@@ -1,3 +1,27 @@
+.settings_wrapper {
+    width: 250px;
+    height: 100px;
+    padding: 15px;
+    box-sizing: border-box;
+    background-color: #99e3e1;
+    text-align: center;
+}
+
+.title {
+    display: inline-block;
+    width: 80px;
+    color: white;
+    font:  normal 600 15px 'Palatino Linotype';;
+}
+
+.defaultInput {
+    width: 35px;
+    outline: none;
+    border: 1px solid #99e3e1;
+    color: #fff;
+    background-color: #99e3e1;
+}
+
 .incorrect_input {
     background-color: #f00;
 }
