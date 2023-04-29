@@ -6,7 +6,7 @@ import {Settings} from './components/Settings/Settings';
 
 function App() {
 
-    useEffect(() => {
+    /*useEffect(() => {
         const startMinValue = localStorage.getItem('minValue')
         const startMaxValue = localStorage.getItem('maxValue')
         if (startMinValue && startMaxValue) {
@@ -14,7 +14,7 @@ function App() {
             setMinValue(JSON.parse(startMinValue))
             setMaxValue(JSON.parse(startMaxValue))
         }
-    }, [])
+    }, [])*/
 
     let [value, setValue] = useState<number | string>(0)
 
@@ -50,8 +50,8 @@ function App() {
     }
 
     const onClickSetValueHandler = () => {
-        localStorage.setItem('minValue', JSON.stringify(minValue))
-        localStorage.setItem('maxValue', JSON.stringify(maxValue))
+        /*localStorage.setItem('minValue', JSON.stringify(minValue))
+        localStorage.setItem('maxValue', JSON.stringify(maxValue))*/
         setValue(minValue)
         setIsButtonIncDisabled(false)
     }
