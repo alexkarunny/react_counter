@@ -1,10 +1,16 @@
-import React, {ChangeEvent, useEffect, useState} from 'react';
+import React, {ChangeEvent, useState} from 'react';
 import './App.css';
 import {Counter} from './components/Counter/Counter';
 import {Settings} from './components/Settings/Settings';
+import {useDispatch, useSelector} from 'react-redux';
+import {StateType} from './bll/store';
+import {increaseCounter} from './bll/counterReducer';
 
 
 function App() {
+
+    const storeValue = useSelector<StateType, number>(state => state.counter.value)
+    const dispatch = useDispatch()
 
     /*useEffect(() => {
         const startMinValue = localStorage.getItem('minValue')
@@ -16,7 +22,7 @@ function App() {
         }
     }, [])*/
 
-    let [value, setValue] = useState<number | string>(0)
+    let [value, setValue] = useState<number | string>(storeValue)
 
     let [minValue, setMinValue] = useState<number>(0)
 
@@ -29,10 +35,12 @@ function App() {
     let [isButtonSetDisabled, setIsButtonSetDisabled] = useState<boolean>(true)
 
     const onClickIncreaseHandler = () => {
-        if (typeof value === 'number') {
+        dispatch(increaseCounter())
+        setIsButtonResetDisabled(false)
+/*        if (typeof value === 'number') {
             setValue(++value)
-            setIsButtonResetDisabled(false)
-        }
+
+        }*/
     }
 
     const onClickResetValueHandler = () => {
@@ -58,7 +66,7 @@ function App() {
 
     return (
         <div className="App">
-            <Counter value={value} maxValue={maxValue} minValue={minValue}
+            <Counter value={storeValue} maxValue={maxValue} minValue={minValue}
                      onClickIncreaseHandler={onClickIncreaseHandler} onClickResetValueHandler={onClickResetValueHandler}
                      isResetDisabled={isButtonResetDisabled} isIncDisables={isButtonIncDisabled}/>
             <Settings minValue={minValue} maxValue={maxValue} value={value} isSetDisabled={isButtonSetDisabled} onClickSetValueHandler={onClickSetValueHandler} onChangeSetValueHandler={onChangeSetValueHandler}/>
