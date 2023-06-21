@@ -10,13 +10,19 @@ type CounterPropsType = {
     onClickResetValueHandler: () => void
     isIncDisables: boolean
     isResetDisabled: boolean
+    isEditModeOn: boolean
 }
 
 export const Counter = (props: CounterPropsType) => {
 
-    const finalValue = props.minValue === props.maxValue || props.minValue < 0 || props.minValue > props.maxValue ? 'incorrect values' : props.value
+    const finalValue = props.minValue === props.maxValue || props.minValue < 0 || props.minValue > props.maxValue
+        ? 'incorrect values'
+        : props.isEditModeOn
+            ? 'set settings and press "set" '
+            : props.value
     const finalButtonIncIsDisabled = props.isIncDisables || props.value === props.maxValue
     const finalDisplayClassName = c.display + (props.value === props.maxValue || finalValue === 'incorrect values' ? ' ' + c.red : '')
+    const finalResetButtonIsDisabled = props.value === props.minValue || props.isResetDisabled
 
 
     return (
@@ -27,7 +33,7 @@ export const Counter = (props: CounterPropsType) => {
                     onClickCallback={props.onClickIncreaseHandler}
             />
             <Button title={'Reset'}
-                    isDisabled={props.isResetDisabled}
+                    isDisabled={finalResetButtonIsDisabled}
                     onClickCallback={props.onClickResetValueHandler}
             />
         </div>

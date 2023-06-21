@@ -9,14 +9,13 @@ type SettingsPropsType = {
     isSetDisabled: boolean
     onClickSetValueHandler: () => void
     onChangeSetValueHandler: (e: ChangeEvent<HTMLInputElement>, setValueCase: 'min' | 'max') => void
+    isEditModeOn: boolean
 }
 
 export const Settings = (props: SettingsPropsType) => {
 
-    const finalButtonSetIsDisabled = props.isSetDisabled || props.minValue === props.maxValue || props.minValue < 0 || props.minValue > props.maxValue
-
+    const finalButtonSetIsDisabled = !props.isEditModeOn || props.isSetDisabled || props.minValue === props.maxValue || props.minValue < 0 || props.minValue > props.maxValue
     const finalMaxValueClassName = c.defaultInput + (props.minValue === props.maxValue || props.minValue > props.maxValue || props.maxValue < 0 ? ` ${c.incorrect_input}` : '')
-
     const finalMinValueClassName = c.defaultInput + (props.minValue === props.maxValue || props.minValue < 0 || props.minValue > props.maxValue ? ` ${c.incorrect_input}` : '')
 
     return (
